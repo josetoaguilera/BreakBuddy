@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import * as Notifications from "expo-notifications";
 import { Alert } from "react-native";
-
+import { registerForPushNotificationsAsync } from "../utils/notifications";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -30,16 +30,7 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
-    async function requestPermissions() {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert(
-          "Permission required",
-          "Notifications need permission to work."
-        );
-      }
-    }
-    requestPermissions();
+    registerForPushNotificationsAsync();
   }, []);
 
   if (!loaded) {
